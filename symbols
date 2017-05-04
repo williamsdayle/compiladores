@@ -1,0 +1,40 @@
+Symbol simbolo = new Symbol();
+    ArrayList<Symbol> simbolos = new ArrayList();
+    
+    public  int adicionarSimbolo(Symbol simbolo){
+        Symbol aux = null;
+        for (int i = 0;i<simbolos.size();i++){
+            aux = simbolos.get(i);
+            if(aux.lexem.compareTo(simbolo.lexem)==0){
+                    simbolos.set(i, simbolo);
+                    return i;
+            }
+    }
+        simbolos.add(simbolo);
+        return simbolos.size() - 1;
+    
+    
+    }
+    public Symbol getSimbolo(int id){
+        if(id < simbolos.size())
+           return simbolos.get(id);
+        Symbol s = null;
+        s.token = Tokens.ValorTokens("ERR");
+        return s;
+    }
+    public boolean Atualizar(int id, int valor){
+        if(id > simbolos.size())
+            return false;
+        simbolos.get(id).valor = valor;
+        return true;      
+            
+    
+    }
+    public void MostrarNaTela(){
+        String print = null;
+        Symbol s = null;
+        for(int i =0;i< simbolos.size();i++){
+            s = simbolos.get(i);
+            System.out.println("#" + i + " : "+ s.token+" : " + s.valor + " : " + s.lexem);
+          }
+    }
