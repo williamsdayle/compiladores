@@ -1,0 +1,25 @@
+public static int ValorTokens(String tipo){
+    if(tipo.equals("EOL")){
+        return 256;
+    }
+    else if(tipo.equals("ERR")){
+        return -2;
+    }
+    else if(tipo.equals("EQUALS")){
+        return 258;
+    }
+    else if(tipo.equals("PLUS")){
+        return 257;
+    }
+    else if(tipo.equals("NUM")){
+        return 259;
+    }
+    else if(tipo.equals("VAR")){
+        return 260;
+    }
+    else if(tipo.equals("PRINT")){
+        return 261;
+    }
+    else 
+        return -1;
+    }
