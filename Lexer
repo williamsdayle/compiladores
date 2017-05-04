@@ -1,0 +1,125 @@
+int line = 1;
+    char peek = ' ';
+    String entrada;
+    int entrada_pos = -1;
+    int posicao_char = -1;
+    
+    public char proximoChar(){
+            this.entrada_pos++;
+            this.posicao_char++;
+            char charac = '\0';
+            if(this.entrada_pos < entrada.length())
+                charac = entrada.charAt(this.entrada_pos);
+            return charac;
+            
+    
+    }
+    @SuppressWarnings("empty-statement")
+    public Symbol proximo_Token(){
+        Symbol token = null;
+        Symbols simbolo = new Symbols();
+        token.token = -1;
+        peek = proximoChar();
+        
+        do{
+            if(peek == ' '|| peek=='\t')continue;
+            else if (peek == '\n'){
+                line++;
+                this.posicao_char = -1;
+            }
+            else
+                break;
+            
+        }while(peek == proximoChar());
+        if(peek == '$'){
+            String var = "$";
+            peek = this.proximoChar();
+            while(isLetter(peek)){
+                var += peek;
+                peek = this.proximoChar();
+            }
+            this.entrada_pos --;
+            token.token = Tokens.ValorTokens("VAR");
+            Symbol s = null;
+            s.token = Tokens.ValorTokens("VAR");
+            s.valor = 0;
+            s.lexem = var;
+            token.valor = simbolo.adicionarSimbolo(s);
+            return token;
+            
+        }
+        else if(isDigit(peek)){
+            int x = 0;
+            do{
+                x = 10 * x + System.identityHashCode(peek);
+            }while(isDigit(peek));
+            this.entrada_pos --;
+            token.token = Tokens.ValorTokens("NUM");
+            token.valor = x;
+            return token;
+        }
+        else if(peek == 'p'){
+        String print = "print";
+        for(int i =0;i<print.length();i++){
+            if(print.charAt(i) == peek){
+                peek = proximoChar();
+            }
+            else{
+            token.token = Tokens.ValorTokens("ERR");
+            return token;
+            }
+                
+        }
+        token.token = Tokens.ValorTokens("PRINT");
+        return token;
+        
+        }else if(peek == ';'){
+            token.token = Tokens.ValorTokens("EOL");
+            token.valor = 0;
+        }else if(peek == '+'){
+            token.token = Tokens.ValorTokens("PLUS");
+            token.valor = 0;
+        }else if(peek == '='){
+            token.token = Tokens.ValorTokens("EQUALS");
+            token.valor = 0;
+        }
+                
+               
+        return token;
+        }
+    
+    public void printToken(Symbol token){
+        if(token.token == Tokens.ValorTokens("ERR")){
+            System.out.println("<ERR>");
+        }else if(token.token == Tokens.ValorTokens("EOL")){
+            System.out.println("<EOL>");
+        }else if(token.token == Tokens.ValorTokens("EQUALS")){
+            System.out.println("<EQUALS>");
+        }else if(token.token == Tokens.ValorTokens("PLUS")){
+            System.out.println("<PLUS>");
+        }else if(token.token == Tokens.ValorTokens("NUM")){
+            System.out.println("<NUM,"+token.valor+">");
+        }else if(token.token == Tokens.ValorTokens("VAR")){
+            System.out.println("<VAR,"+token.valor+">");
+        }
+    }
+    public String lerTodasLinhas(String filename) throws FileNotFoundException, IOException{
+        String Todaslinhas = "";
+        FileReader file = new FileReader(filename);
+        try (BufferedReader lerArq = new BufferedReader(file)) {
+            String linha = null;            
+            while((linha = lerArq.readLine())!= null){                
+                Todaslinhas += linha;
+            }
+            lerArq.close();
+            return Todaslinhas;
+        }
+        catch(FileNotFoundException ex){
+            System.out.println("nao achei brow" + filename);
+        }
+        catch(IOException i){
+            System.out.println("erro ao ler a linha brow");
+        }
+        return "Erro no momento de leitura";
+    
+    }
